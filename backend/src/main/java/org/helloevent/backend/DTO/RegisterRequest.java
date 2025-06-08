@@ -7,7 +7,7 @@ import org.helloevent.backend.Entity.Role;
 public class RegisterRequest {
 
     @NotBlank
-    private String nom;
+    private String name;
 
     @NotBlank
     private String email;
@@ -21,20 +21,19 @@ public class RegisterRequest {
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String nom, String email,String password,  Role role) {
-        this.nom = nom;
-//        this.prenom = prenom;
+    public RegisterRequest(String name, String email,String password,  Role role) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

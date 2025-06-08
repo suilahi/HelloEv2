@@ -26,6 +26,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public int getId() {
         return id;
     }
@@ -62,9 +65,6 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -99,5 +99,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

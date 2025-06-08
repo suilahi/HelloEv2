@@ -1,6 +1,8 @@
 package org.helloevent.backend.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,9 +16,13 @@ public class Reservation {
     private int nombrePlaces;
 
     @ManyToOne
+    @JoinColumn(name = "client_id")
+    @JsonManagedReference
     private Client client;
 
     @ManyToOne
+    @JoinColumn(name = "evenement_id")
+    @JsonBackReference
     private Evenement evenement;
 
     public Long getId() {

@@ -32,11 +32,10 @@ export class RegisterComponent {
       this.authService.register(this.registerForm.value).subscribe({
         next: (res: any) => {
           console.log('Success', res);
-          this.router.navigate(['/login']); // Redirect after registration success
+          this.router.navigate(['/login']);
         },
         error: (err: any) => {
           console.error('Error', err);
-          // optionally show error feedback in UI here
         }
       });
     } else {

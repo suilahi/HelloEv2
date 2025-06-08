@@ -17,6 +17,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/evenement")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true") // 👈 ici
 public class EvenementController {
 
     private EvenementService evenementService;
@@ -34,7 +35,7 @@ public class EvenementController {
 
     public ResponseEntity<?> ajouter(@RequestBody Evenement evenement) {
 
-        System.out.println("[DEBUG] Catégorie reçue : " + evenement.getCategorie());
+        System.out.println(" Catégorie reçue : " + evenement.getCategorie());
 
         if (evenement.getCategorie() == null) {
             System.out.println(" Catégorie est nulle ");
@@ -48,7 +49,7 @@ public class EvenementController {
         return ResponseEntity.ok(savedEvent);
     }
 
-    @PutMapping("/put")
+    @PutMapping("/put/{id}")
     public Evenement modification(@RequestBody Evenement evenement) {
         return evenementService.update(evenement);
     }

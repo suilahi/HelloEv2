@@ -12,17 +12,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ClientRepository clientRepo;
-    @Autowired
-    private JwtUtil jwtUtil;
 
+    private final PasswordEncoder passwordEncoder;
+    private final ClientRepository clientRepo;
+    private final JwtUtil jwtUtil;
+
+    @Autowired
     public AuthService(PasswordEncoder passwordEncoder, ClientRepository clientRepo, JwtUtil jwtUtil) {
         this.passwordEncoder = passwordEncoder;
         this.clientRepo = clientRepo;
@@ -31,29 +29,35 @@ public class AuthService {
 
     public AuthResponse register(@Valid RegisterRequest request) {
         if (request.getPassword() == null || request.getPassword().isBlank()) {
-            throw new IllegalArgumentException("Password cannot be null ");
+            throw new IllegalArgumentException("Le mot de passe ne peut pas être vide.");
         }
 
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        if (clientRepo.findByEmail(request.getEmail()) != null) {
+            throw new IllegalArgumentException("Un compte avec cet email existe déjà.");
+        }
 
         Client client = new Client();
         client.setEmail(request.getEmail());
-        client.setPassword(encodedPassword);
-        client.setName(request.getNom());
+        client.setPassword(passwordEncoder.encode(request.getPassword()));
+        client.setName(request.getName());
         client.setRole(request.getRole());
 
         clientRepo.save(client);
 
         String jwt = jwtUtil.generateToken(client.getEmail(), client.getRole());
-
         return new AuthResponse(jwt);
     }
 
-    public AuthResponse login(LoginRequest req) {
+    public AuthResponse login(@Valid LoginRequest req) {
         Client client = clientRepo.findByEmail(req.getEmail());
 
-        if (!passwordEncoder.matches(req.getPassword(), client.getPassword()))
-            throw new BadCredentialsException("Wrong password");
+        if (client == null) {
+            throw new UsernameNotFoundException("Utilisateur non trouvé avec cet email.");
+        }
+
+        if (!passwordEncoder.matches(req.getPassword(), client.getPassword())) {
+            throw new BadCredentialsException("Mot de passe incorrect.");
+        }
 
         String token = jwtUtil.generateToken(client.getEmail(), client.getRole());
         return new AuthResponse(token);

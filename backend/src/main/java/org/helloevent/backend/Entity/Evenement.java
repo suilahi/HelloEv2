@@ -1,6 +1,7 @@
 package org.helloevent.backend.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
@@ -23,7 +24,8 @@ public class Evenement {
         @Column(nullable = false)
         private Categorie categorie;
 
-        @OneToMany(mappedBy = "evenement")
+        @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
+        @JsonManagedReference
         private List<Reservation> reservations;
 
 
@@ -68,19 +70,19 @@ public class Evenement {
         }
 
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
         public List<Reservation> getReservations() {
             return reservations;
         }
 
         public void setReservations(List<Reservation> reservations) {
             this.reservations = reservations;
-        }
-
-        public Categorie getCategorie() {
-            return categorie;
-        }
-
-        public void setCategorie(Categorie categorie) {
-            this.categorie = categorie;
         }
     }

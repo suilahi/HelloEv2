@@ -1,6 +1,9 @@
 package org.helloevent.backend.Controllers;
 
 import org.helloevent.backend.Entity.Client;
+import org.helloevent.backend.Entity.User;
+import org.helloevent.backend.Repositories.ClientRepository;
+import org.helloevent.backend.Repositories.EvenementRepository;
 import org.helloevent.backend.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,4 +34,6 @@ public class ClientController {
     public Client putClient(@RequestBody Client client) {
         return clientService.updateClients(client);
     }
+
+
 }

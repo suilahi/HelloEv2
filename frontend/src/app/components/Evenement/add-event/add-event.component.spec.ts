@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EvenementComponent } from './evenement.component';
+import { AddEventComponent } from './add-event.component';
 
-describe('EvenementComponent', () => {
-  let component: EvenementComponent;
-  let fixture: ComponentFixture<EvenementComponent>;
+describe('AddEventComponent', () => {
+  let component: AddEventComponent;
+  let fixture: ComponentFixture<AddEventComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EvenementComponent]
+      imports: [AddEventComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EvenementComponent);
+    fixture = TestBed.createComponent(AddEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
